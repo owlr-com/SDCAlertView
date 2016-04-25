@@ -46,53 +46,52 @@ final class DemoViewController: UITableViewController {
 
         alert.actionLayout = ActionLayout(rawValue: self.buttonLayoutControl.selectedSegmentIndex)!
 
-        if #available(iOS 9, *) {
-            addContentToAlert(alert)
-        }
+        addContentToAlert(alert)
         alert.present()
     }
 
-    @available(iOS 9, *)
     private func addContentToAlert(alert: AlertController) {
         switch self.contentControl.selectedSegmentIndex {
-            case 1:
-                let contentView = alert.contentView
-                let spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-                spinner.translatesAutoresizingMaskIntoConstraints = false
-                spinner.startAnimating()
-                contentView.addSubview(spinner)
-                spinner.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true
-                spinner.topAnchor.constraintEqualToAnchor(contentView.topAnchor).active = true
-                spinner.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor).active = true
-            case 2:
-                let contentView = alert.contentView
-                let switchControl = UISwitch()
-                switchControl.on = true
-                switchControl.translatesAutoresizingMaskIntoConstraints = false
-                contentView.addSubview(switchControl)
-                switchControl.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor).active = true
-                switchControl.topAnchor.constraintEqualToAnchor(contentView.topAnchor).active = true
-                switchControl.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor).active = true
-
-                alert.message = "Disable switch to prevent alert dismissal"
-
-                alert.shouldDismissHandler = { [unowned switchControl] _ in
-                    return switchControl.on
-                }
-            case 3:
-                let bar = UIProgressView(progressViewStyle: .Default)
-                bar.translatesAutoresizingMaskIntoConstraints = false
-                alert.contentView.addSubview(bar)
-                bar.leadingAnchor.constraintEqualToAnchor(alert.contentView.leadingAnchor,
-                    constant: 20).active = true
-                bar.trailingAnchor.constraintEqualToAnchor(alert.contentView.trailingAnchor,
-                    constant: -20).active = true
-                bar.topAnchor.constraintEqualToAnchor(alert.contentView.topAnchor).active = true
-                bar.bottomAnchor.constraintEqualToAnchor(alert.contentView.bottomAnchor).active = true
-
-                NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector:
-                    #selector(updateProgressBar), userInfo: bar, repeats: true)
-            default: break
+        case 1:
+            let contentView = alert.contentView
+            let image = UIImage(named: "cheerful_owlr")
+            let imageView = UIImageView(image: image)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(imageView)
+            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: [], metrics: nil, views: ["imageView" : imageView]))
+            contentView.addConstraint(NSLayoutConstraint(
+                item: imageView,
+                attribute: .CenterX,
+                relatedBy: .Equal,
+                toItem: contentView,
+                attribute: .CenterX,
+                multiplier: 1.0,
+                constant: 0.0))
+        case 2:
+            let contentView = alert.contentView
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+            spinner.translatesAutoresizingMaskIntoConstraints = false
+            spinner.startAnimating()
+            contentView.addSubview(spinner)
+            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[spinner]|", options: [], metrics: nil, views: ["spinner" : spinner]))
+            contentView.addConstraint(NSLayoutConstraint(
+                item: spinner,
+                attribute: .CenterX,
+                relatedBy: .Equal,
+                toItem: contentView,
+                attribute: .CenterX,
+                multiplier: 1.0,
+                constant: 0.0))
+        case 3:
+            let contentView = alert.contentView
+            let bar = UIProgressView(progressViewStyle: .Default)
+            bar.translatesAutoresizingMaskIntoConstraints = false
+            alert.contentView.addSubview(bar)
+            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bar]|", options: [], metrics: nil, views: ["bar" : bar]))
+            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[bar]-20-|", options: [], metrics: nil, views: ["bar" : bar]))
+            NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector:
+                #selector(updateProgressBar), userInfo: bar, repeats: true)
+        default: break
         }
     }
 
