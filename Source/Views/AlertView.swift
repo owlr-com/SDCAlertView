@@ -105,15 +105,42 @@ class AlertView: AlertControllerView {
     // MARK: - Constraints
 
     private func createContentConstraints() {
-        self.createTitleLabelConstraints()
+        if self.elements.contains(self.contentView) {
+            self.createCustomContentViewConstraints()
+            self.createTitleLabelConstraints()
+        } else {
+            self.createTitleAtTopLabelConstraints()
+        }
+        
         self.createMessageLabelConstraints()
         self.createTextFieldsConstraints()
-        self.createCustomContentViewConstraints()
         self.createCollectionViewConstraints()
         self.createScrollViewConstraints()
     }
 
+    private func createCustomContentViewConstraints() {
+
+        let contentPadding = self.visualStyle.contentPadding
+        self.addConstraint(NSLayoutConstraint(item: self.contentView, attribute: .FirstBaseline,
+            relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: contentPadding.top))
+        let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
+        self.contentView.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
+        
+        self.pinBottomOfScrollViewToView(self.contentView, withPriority: UILayoutPriorityDefaultLow)
+    }
+    
     private func createTitleLabelConstraints() {
+        self.addConstraint(NSLayoutConstraint(item: self.titleLabel, attribute: .FirstBaseline,
+            relatedBy: .Equal, toItem: self.contentView, attribute: .Baseline , multiplier: 1,
+            constant: self.visualStyle.verticalElementSpacing))
+        let contentPadding = self.visualStyle.contentPadding
+        let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
+        self.titleLabel.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
+        
+        self.pinBottomOfScrollViewToView(self.titleLabel, withPriority: UILayoutPriorityDefaultLow + 1)
+    }
+    
+    private func createTitleAtTopLabelConstraints() {
         let contentPadding = self.visualStyle.contentPadding
         self.addConstraint(NSLayoutConstraint(item: self.titleLabel, attribute: .FirstBaseline,
             relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: contentPadding.top))
@@ -131,7 +158,7 @@ class AlertView: AlertControllerView {
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
         self.messageLabel.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
 
-        self.pinBottomOfScrollViewToView(self.messageLabel, withPriority: UILayoutPriorityDefaultLow + 1)
+        self.pinBottomOfScrollViewToView(self.messageLabel, withPriority: UILayoutPriorityDefaultLow + 2)
     }
 
     private func createTextFieldsConstraints() {
@@ -154,21 +181,7 @@ class AlertView: AlertControllerView {
         textFieldsView.sdc_alignHorizontalCenterWithView(self)
         textFieldsView.sdc_pinHeight(height)
 
-        self.pinBottomOfScrollViewToView(textFieldsView, withPriority: UILayoutPriorityDefaultLow + 2)
-    }
-
-    private func createCustomContentViewConstraints() {
-        if !self.elements.contains(self.contentView) { return }
-
-        let aligningView = self.textFieldsViewController?.view ?? self.messageLabel
-        let widthOffset = self.visualStyle.contentPadding.left + self.visualStyle.contentPadding.right
-
-        let topSpacing = self.visualStyle.verticalElementSpacing
-        self.contentView.sdc_alignEdge(.Top, withEdge: .Bottom, ofView: aligningView, inset: topSpacing)
-        self.contentView.sdc_alignHorizontalCenterWithView(self)
-        self.contentView.sdc_pinWidthToWidthOfView(self, offset: -widthOffset)
-
-        self.pinBottomOfScrollViewToView(self.contentView, withPriority: UILayoutPriorityDefaultLow + 3)
+        self.pinBottomOfScrollViewToView(textFieldsView, withPriority: UILayoutPriorityDefaultLow + 3)
     }
 
     private func createCollectionViewConstraints() {
