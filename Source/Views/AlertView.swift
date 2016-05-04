@@ -13,7 +13,10 @@ class AlertView: AlertControllerView {
     }
 
     override var visualStyle: AlertVisualStyle! {
-        didSet { self.textFieldsViewController?.visualStyle = self.visualStyle }
+        didSet {
+            self.textFieldsViewController?.visualStyle = self.visualStyle
+            self.updateLabelAppearance()
+        }
     }
 
     private let scrollView = UIScrollView()
@@ -38,8 +41,16 @@ class AlertView: AlertControllerView {
 
     convenience init() {
         self.init(frame: .zero)
-        self.titleLabel.font = UIFont.boldSystemFontOfSize(17)
-        self.messageLabel.font = UIFont.systemFontOfSize(13)
+        self.updateLabelAppearance()
+    }
+    
+    func updateLabelAppearance() {
+        if let visualStyle = self.visualStyle {
+            self.titleLabel.font = visualStyle.titleFont
+            self.titleLabel.textColor = visualStyle.titleTextColor
+            self.messageLabel.font = visualStyle.messageFont
+            self.messageLabel.textColor = visualStyle.messageTextColor
+        }
     }
 
     override func prepareLayout() {

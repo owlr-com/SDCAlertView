@@ -25,7 +25,17 @@ final class DemoViewController: UITableViewController {
         let message = self.messageTextField.content
         let style = AlertControllerStyle(rawValue: self.styleControl.selectedSegmentIndex)!
         let alert = AlertController(title: title, message: message, preferredStyle: style)
-
+        
+        let visualStyle = OwlrVisualStyle(alertStyle: style)
+        visualStyle.backgroundColor = UIColor.purpleColor()
+        visualStyle.defaultFont = UIFont.italicSystemFontOfSize(12)
+        visualStyle.defaultTextColor = UIColor.lightGrayColor()
+        visualStyle.preferredFont = UIFont.boldSystemFontOfSize(6)
+        visualStyle.preferredTextColor = UIColor.darkGrayColor()
+        visualStyle.titleTextColor = UIColor.greenColor()
+        visualStyle.messageTextColor = UIColor.brownColor()
+        alert.visualStyle = visualStyle
+        
         let textFields = Int(self.textFieldCountTextField.content ?? "0")!
         for _ in 0..<textFields {
             alert.addTextFieldWithConfigurationHandler()
