@@ -133,7 +133,7 @@ class AlertView: AlertControllerView {
 
         let contentPadding = self.visualStyle.contentPadding
         self.addConstraint(NSLayoutConstraint(item: self.contentView, attribute: .FirstBaseline,
-            relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: contentPadding.top))
+            relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: self.visualStyle.verticalElementSpacing))
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
         self.contentView.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
         
