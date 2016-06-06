@@ -2,30 +2,25 @@ import UIKit
 
 final class ActionCell: UICollectionViewCell {
 
-    @IBOutlet private(set) var titleLabel: UILabel!
-    @IBOutlet private var highlightedBackgroundView: UIView!
-
-    private var textColor: UIColor?
+    @IBOutlet private(set) weak var button: UIButton!
     
     var enabled = true {
-        didSet { self.titleLabel.enabled = self.enabled }
+        didSet { self.button.enabled = self.enabled }
     }
 
     override var highlighted: Bool {
-        didSet { self.highlightedBackgroundView.hidden = !self.highlighted }
+        didSet { self.button.highlighted = self.highlighted }
     }
 
     func setAction(action: AlertAction, withVisualStyle visualStyle: AlertVisualStyle) {
         action.actionView = self
 
-        self.titleLabel.font = visualStyle.font(forAction: action)
-        
-        self.textColor = visualStyle.textColor(forAction: action)
-        self.titleLabel.textColor = self.textColor ?? self.tintColor
-        
-        self.titleLabel.attributedText = action.attributedTitle
+        self.button.titleLabel!.font = visualStyle.font(forAction: action)
+        self.button.titleLabel!.textColor = UIColor.whiteColor()
 
-        self.highlightedBackgroundView.backgroundColor = visualStyle.actionHighlightColor
+        self.button.backgroundColor = visualStyle.textColor(forAction: action);
+        
+        self.button.setAttributedTitle(action.attributedTitle, forState: .Normal)
 
         self.accessibilityLabel = action.attributedTitle?.string
         self.accessibilityTraits = UIAccessibilityTraitButton
@@ -34,7 +29,7 @@ final class ActionCell: UICollectionViewCell {
 
     override func tintColorDidChange() {
         super.tintColorDidChange()
-        self.titleLabel.textColor = textColor ?? self.tintColor
+        self.button.backgroundColor = tintColor;
     }
 }
 
