@@ -27,13 +27,24 @@ final class DemoViewController: UITableViewController {
         let alert = AlertController(title: title, message: message, preferredStyle: style)
         
         let visualStyle = OwlrVisualStyle(alertStyle: style)
-        visualStyle.backgroundColor = UIColor.purpleColor()
-        visualStyle.defaultFont = UIFont.italicSystemFontOfSize(12)
-        visualStyle.defaultTextColor = UIColor.lightGrayColor()
-        visualStyle.preferredFont = UIFont.boldSystemFontOfSize(6)
-        visualStyle.preferredTextColor = UIColor.darkGrayColor()
-        visualStyle.titleTextColor = UIColor.greenColor()
-        visualStyle.messageTextColor = UIColor.brownColor()
+        
+        visualStyle.backgroundColor = UIColor.whiteColor()
+        
+        visualStyle.titleTextColor = UIColor.darkTextColor()
+        visualStyle.messageTextColor = UIColor.darkTextColor()
+
+        visualStyle.defaultFont = UIFont.boldSystemFontOfSize(15)
+        visualStyle.defaultTextColor = UIColor.whiteColor()
+        visualStyle.defaultButtonColor = UIColor.lightGrayColor()
+
+        visualStyle.preferredFont = UIFont.boldSystemFontOfSize(15)
+        visualStyle.preferredTextColor = UIColor.whiteColor()
+        visualStyle.preferredButtonColor = UIColor.blueColor()
+        
+        visualStyle.destructiveFont = UIFont.italicSystemFontOfSize(15)
+        visualStyle.destructiveTextColor = UIColor.darkTextColor()
+        visualStyle.destructiveButtonColor = UIColor.whiteColor()
+        
         alert.visualStyle = visualStyle
         
         let textFields = Int(self.textFieldCountTextField.content ?? "0")!

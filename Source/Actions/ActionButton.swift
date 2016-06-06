@@ -15,7 +15,6 @@ class ActionButton: UIButton {
         super.init(coder: aDecoder)
 
         self.titleLabel!.adjustsFontSizeToFitWidth = true
-        self.titleLabel!.font = UIFont(name:"HelveticaNeue-Bold", size: 16)
         
         self.layer.shadowRadius = 1.0
         self.layer.cornerRadius = 5.0
@@ -24,14 +23,7 @@ class ActionButton: UIButton {
     
     override var highlighted: Bool {
         didSet {
-            var red : CGFloat = 0
-            var green : CGFloat = 0
-            var blue : CGFloat = 0
-            var alpha : CGFloat = 0
-            
-            self.backgroundColor?.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-            
-            self.backgroundColor = UIColor(red:red, green:green, blue:blue, alpha:(self.highlighted ? 0.7 : 1.0))
+            self.alpha = (self.highlighted ? 0.7 : 1.0)
         }
     }
 

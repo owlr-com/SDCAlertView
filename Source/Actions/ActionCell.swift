@@ -16,20 +16,15 @@ final class ActionCell: UICollectionViewCell {
         action.actionView = self
 
         self.button.titleLabel!.font = visualStyle.font(forAction: action)
-        self.button.titleLabel!.textColor = UIColor.whiteColor()
+        self.button.titleLabel!.textColor = visualStyle.textColor(forAction: action)
 
-        self.button.backgroundColor = visualStyle.textColor(forAction: action);
+        self.button.backgroundColor = visualStyle.buttonColor(forAction: action)
         
         self.button.setAttributedTitle(action.attributedTitle, forState: .Normal)
 
         self.accessibilityLabel = action.attributedTitle?.string
         self.accessibilityTraits = UIAccessibilityTraitButton
         self.isAccessibilityElement = true
-    }
-
-    override func tintColorDidChange() {
-        super.tintColorDidChange()
-        self.button.backgroundColor = tintColor;
     }
 }
 
