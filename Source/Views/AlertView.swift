@@ -142,7 +142,7 @@ class AlertView: AlertControllerView {
     
     private func createTitleLabelConstraints() {
         self.addConstraint(NSLayoutConstraint(item: self.titleLabel, attribute: .FirstBaseline,
-            relatedBy: .Equal, toItem: self.contentView, attribute: .Baseline , multiplier: 1,
+            relatedBy: .Equal, toItem: self.contentView, attribute: .LastBaseline , multiplier: 1,
             constant: self.visualStyle.verticalElementSpacing))
         let contentPadding = self.visualStyle.contentPadding
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)

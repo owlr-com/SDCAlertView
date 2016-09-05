@@ -26,7 +26,7 @@ final class DemoViewController: UITableViewController {
         let style = AlertControllerStyle(rawValue: self.styleControl.selectedSegmentIndex)!
         let alert = AlertController(title: title, message: message, preferredStyle: style)
         
-        let visualStyle = OwlrVisualStyle(alertStyle: style)
+        let visualStyle = AlertVisualStyle(alertStyle: style)
         
         visualStyle.backgroundColor = UIColor.whiteColor()
         
