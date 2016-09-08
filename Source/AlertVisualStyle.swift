@@ -85,11 +85,11 @@ public class AlertVisualStyle: NSObject {
             if #available(iOS 9, *) {
                 self.cornerRadius = 13
                 self.margins = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-                self.actionViewSize = CGSize(width: 90, height: 44)
+                self.actionViewSize = CGSize(width: 90, height: 54)
             } else {
                 self.cornerRadius = 7
                 self.margins = UIEdgeInsetsZero
-                self.actionViewSize = CGSize(width: 90, height: 44)
+                self.actionViewSize = CGSize(width: 90, height: 54)
             }
             
         case .ActionSheet:
