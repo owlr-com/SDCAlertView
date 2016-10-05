@@ -28,40 +28,40 @@ final class DemoViewController: UITableViewController {
         
         let visualStyle = AlertVisualStyle(alertStyle: style)
         
-        visualStyle.backgroundColor = UIColor.whiteColor()
+        visualStyle.backgroundColor = UIColor.white
         
-        visualStyle.titleTextColor = UIColor.darkTextColor()
-        visualStyle.messageTextColor = UIColor.darkTextColor()
+        visualStyle.titleTextColor = UIColor.darkText
+        visualStyle.messageTextColor = UIColor.darkText
 
-        visualStyle.defaultFont = UIFont.boldSystemFontOfSize(15)
-        visualStyle.defaultTextColor = UIColor.whiteColor()
-        visualStyle.defaultButtonColor = UIColor.lightGrayColor()
+        visualStyle.normalFont = UIFont.boldSystemFont(ofSize: 15)
+        visualStyle.normalTextColor = UIColor.white
+        visualStyle.normalButtonColor = UIColor.lightGray
 
-        visualStyle.preferredFont = UIFont.boldSystemFontOfSize(15)
-        visualStyle.preferredTextColor = UIColor.whiteColor()
-        visualStyle.preferredButtonColor = UIColor.blueColor()
+        visualStyle.preferredFont = UIFont.boldSystemFont(ofSize: 15)
+        visualStyle.preferredTextColor = UIColor.white
+        visualStyle.preferredButtonColor = UIColor.blue
         
-        visualStyle.destructiveFont = UIFont.italicSystemFontOfSize(15)
-        visualStyle.destructiveTextColor = UIColor.darkTextColor()
-        visualStyle.destructiveButtonColor = UIColor.whiteColor()
+        visualStyle.destructiveFont = UIFont.italicSystemFont(ofSize: 15)
+        visualStyle.destructiveTextColor = UIColor.darkText
+        visualStyle.destructiveButtonColor = UIColor.white
         
         alert.visualStyle = visualStyle
         
         let textFields = Int(self.textFieldCountTextField.content ?? "0")!
         for _ in 0..<textFields {
-            alert.addTextFieldWithConfigurationHandler()
+            alert.addTextField()
         }
 
         let buttons = Int(self.buttonCountTextField.content ?? "0")!
         for i in 0..<buttons {
             if i == 0 {
-                alert.addAction(AlertAction(title: "Cancel", style: .Preferred))
+                alert.add(AlertAction(title: "Cancel", style: .preferred))
             } else if i == 1 {
-                alert.addAction(AlertAction(title: "OK", style: .Default))
+                alert.add(AlertAction(title: "OK", style: .normal))
             } else if i == 2 {
-                alert.addAction(AlertAction(title: "Delete", style: .Destructive))
+                alert.add(AlertAction(title: "Delete", style: .destructive))
             } else {
-                alert.addAction(AlertAction(title: "Button \(i)", style: .Default))
+                alert.add(AlertAction(title: "Button \(i)", style: .normal))
             }
         }
 
@@ -71,7 +71,7 @@ final class DemoViewController: UITableViewController {
         alert.present()
     }
 
-    private func addContentToAlert(alert: AlertController) {
+    private func addContentToAlert(_ alert: AlertController) {
         switch self.contentControl.selectedSegmentIndex {
         case 1:
             let contentView = alert.contentView
@@ -79,49 +79,52 @@ final class DemoViewController: UITableViewController {
             let imageView = UIImageView(image: image)
             imageView.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(imageView)
-            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: [], metrics: nil, views: ["imageView" : imageView]))
+            contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: [], metrics: nil, views: ["imageView" : imageView]))
             contentView.addConstraint(NSLayoutConstraint(
                 item: imageView,
-                attribute: .CenterX,
-                relatedBy: .Equal,
+                attribute: .centerX,
+                relatedBy: .equal,
                 toItem: contentView,
-                attribute: .CenterX,
+                attribute: .centerX,
                 multiplier: 1.0,
                 constant: 0.0))
         case 2:
             let contentView = alert.contentView
-            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
             spinner.translatesAutoresizingMaskIntoConstraints = false
             spinner.startAnimating()
             contentView.addSubview(spinner)
-            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[spinner]|", options: [], metrics: nil, views: ["spinner" : spinner]))
+            contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[spinner]|", options: [], metrics: nil, views: ["spinner" : spinner]))
             contentView.addConstraint(NSLayoutConstraint(
                 item: spinner,
-                attribute: .CenterX,
-                relatedBy: .Equal,
+                attribute: .centerX,
+                relatedBy: .equal,
                 toItem: contentView,
-                attribute: .CenterX,
+                attribute: .centerX,
                 multiplier: 1.0,
                 constant: 0.0))
         case 3:
             let contentView = alert.contentView
-            let bar = UIProgressView(progressViewStyle: .Default)
+            let bar = UIProgressView(progressViewStyle: .default)
             bar.translatesAutoresizingMaskIntoConstraints = false
             alert.contentView.addSubview(bar)
-            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[bar]|", options: [], metrics: nil, views: ["bar" : bar]))
-            contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[bar]-20-|", options: [], metrics: nil, views: ["bar" : bar]))
-            NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector:
-                #selector(updateProgressBar), userInfo: bar, repeats: true)
+            contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[bar]|", options: [], metrics: nil, views: ["bar" : bar]))
+            contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[bar]-20-|", options: [], metrics: nil, views: ["bar" : bar]))
+            Timer.scheduledTimer(timeInterval: 0.01,
+                                 target: self,
+                                 selector: #selector(updateProgressBar),
+                                 userInfo: bar,
+                                 repeats: true)
         default: break
         }
     }
 
     @objc
-    private func updateProgressBar(timer: NSTimer) {
+    private func updateProgressBar(_ timer: Timer) {
         let bar = timer.userInfo as? UIProgressView
         bar?.progress += 0.005
 
-        if bar?.progress >= 1 {
+        if let progress = bar?.progress, progress >= 1.0 {
             timer.invalidate()
         }
     }
@@ -134,30 +137,30 @@ final class DemoViewController: UITableViewController {
 
         let textFields = Int(self.textFieldCountTextField.content ?? "0")!
         for _ in 0..<textFields {
-            alert.addTextFieldWithConfigurationHandler(nil)
+            alert.addTextField(configurationHandler: nil)
         }
 
         let buttons = Int(self.buttonCountTextField.content ?? "0")!
         for i in 0..<buttons {
             if i == 0 {
-                alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             } else if i == 1 {
-                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             } else if i == 2 {
-                alert.addAction(UIAlertAction(title: "Delete", style: .Destructive, handler: nil))
+                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: nil))
             } else {
-                alert.addAction(UIAlertAction(title: "Button \(i)", style: .Default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Button \(i)", style: .default, handler: nil))
             }
         }
 
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 }
 
 private extension UITextField {
 
     var content: String? {
-        if let text = self.text where !text.isEmpty {
+        if let text = self.text, !text.isEmpty {
             return text
         }
 

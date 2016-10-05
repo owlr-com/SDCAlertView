@@ -4,23 +4,23 @@ final class ActionCell: UICollectionViewCell {
 
     @IBOutlet private(set) weak var button: UIButton!
     
-    var enabled = true {
-        didSet { self.button.enabled = self.enabled }
+    var isEnabled = true {
+        didSet { self.button.isEnabled = self.isEnabled }
     }
 
-    override var highlighted: Bool {
-        didSet { self.button.highlighted = self.highlighted }
+    override var isHighlighted: Bool {
+        didSet { self.button.isHighlighted = self.isHighlighted }
     }
 
-    func setAction(action: AlertAction, withVisualStyle visualStyle: AlertVisualStyle) {
+    func set(_ action: AlertAction, with visualStyle: AlertVisualStyle) {
         action.actionView = self
 
-        self.button.titleLabel!.font = visualStyle.font(forAction: action)
-        self.button.titleLabel!.textColor = visualStyle.textColor(forAction: action)
+        self.button.titleLabel!.font = visualStyle.font(for: action)
+        self.button.titleLabel!.textColor = visualStyle.textColor(for: action)
 
         self.button.backgroundColor = visualStyle.buttonColor(forAction: action)
         
-        self.button.setAttributedTitle(action.attributedTitle, forState: .Normal)
+        self.button.setAttributedTitle(action.attributedTitle, for: .normal)
 
         self.accessibilityLabel = action.attributedTitle?.string
         self.accessibilityTraits = UIAccessibilityTraitButton
@@ -30,8 +30,8 @@ final class ActionCell: UICollectionViewCell {
 
 final class ActionSeparatorView: UICollectionReusableView {
 
-    override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
-        super.applyLayoutAttributes(layoutAttributes)
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
 
         if let attributes = layoutAttributes as? ActionsCollectionViewLayoutAttributes {
             self.backgroundColor = attributes.backgroundColor

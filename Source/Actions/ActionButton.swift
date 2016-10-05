@@ -21,9 +21,9 @@ class ActionButton: UIButton {
         self.layer.masksToBounds = true
     }
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            self.alpha = (self.highlighted ? 0.7 : 1.0)
+            self.alpha = (self.isHighlighted ? 0.7 : 1.0)
         }
     }
 

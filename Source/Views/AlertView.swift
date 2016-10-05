@@ -1,13 +1,13 @@
 class AlertView: AlertControllerView {
 
-    var actionLayout: ActionLayout = .Automatic
+    var actionLayout: ActionLayout = .automatic
     var textFieldsViewController: TextFieldsViewController? {
         didSet { self.textFieldsViewController?.visualStyle = self.visualStyle }
     }
 
     var topView: UIView { return self.scrollView }
 
-    override var actionTappedHandler: (AlertAction -> Void)? {
+    override var actionTappedHandler: ((AlertAction) -> Void)? {
         get { return self.actionsCollectionView.actionTapped }
         set { self.actionsCollectionView.actionTapped = newValue }
     }
@@ -33,7 +33,9 @@ class AlertView: AlertControllerView {
     }
 
     private var contentHeight: CGFloat {
-        guard let lastElement = self.elements.last else { return 0 }
+        guard let lastElement = self.elements.last else {
+            return 0
+        }
 
         lastElement.layoutIfNeeded()
         return lastElement.frame.maxY + self.visualStyle.contentPadding.bottom
@@ -73,11 +75,11 @@ class AlertView: AlertControllerView {
         if let color = self.visualStyle.backgroundColor {
             self.backgroundColor = color
         } else {
-            let backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+            let backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
             backgroundView.translatesAutoresizingMaskIntoConstraints = false
 
             self.insertSubview(backgroundView, belowSubview: self.scrollView)
-            backgroundView.sdc_alignEdges(.All, withView: self)
+            backgroundView.sdc_alignEdges(.all, with: self)
         }
     }
 
@@ -92,13 +94,15 @@ class AlertView: AlertControllerView {
     }
 
     private func updateCollectionViewScrollDirection() {
-        guard let layout = self.actionsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
-            else { return }
+        guard let layout = self.actionsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else
+        {
+            return
+        }
 
-        if self.actionLayout == .Horizontal || (self.actions.count == 2 && self.actionLayout == .Automatic) {
-            layout.scrollDirection = .Horizontal
+        if self.actionLayout == .horizontal || (self.actions.count == 2 && self.actionLayout == .automatic) {
+            layout.scrollDirection = .horizontal
         } else {
-            layout.scrollDirection = .Vertical
+            layout.scrollDirection = .vertical
         }
     }
 
@@ -108,7 +112,7 @@ class AlertView: AlertControllerView {
         self.textFieldsViewController?.visualStyle = self.visualStyle
     }
 
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize: CGSize {
         let totalHeight = self.contentHeight + self.actionsCollectionView.displayHeight
         return CGSize(width: UIViewNoIntrinsicMetric, height: totalHeight)
     }
@@ -132,50 +136,50 @@ class AlertView: AlertControllerView {
     private func createCustomContentViewConstraints() {
 
         let contentPadding = self.visualStyle.contentPadding
-        self.addConstraint(NSLayoutConstraint(item: self.contentView, attribute: .Top,
-            relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: contentPadding.top))
+        self.addConstraint(NSLayoutConstraint(item: self.contentView, attribute: .top,
+            relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: contentPadding.top))
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
-        self.contentView.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
+        self.contentView.sdc_alignEdges([.left, .right], with: self, insets: insets)
         
-        self.pinBottomOfScrollViewToView(self.contentView, withPriority: UILayoutPriorityDefaultLow)
+        self.pinBottomOfScrollView(to: self.contentView, withPriority: UILayoutPriorityDefaultLow)
     }
     
     private func createTitleLabelConstraints() {
-        self.addConstraint(NSLayoutConstraint(item: self.titleLabel, attribute: .FirstBaseline,
-            relatedBy: .Equal, toItem: self.contentView, attribute: .LastBaseline , multiplier: 1,
+        self.addConstraint(NSLayoutConstraint(item: self.titleLabel, attribute: .firstBaseline,
+            relatedBy: .equal, toItem: self.contentView, attribute: .lastBaseline , multiplier: 1,
             constant: self.visualStyle.verticalElementSpacing))
         let contentPadding = self.visualStyle.contentPadding
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
-        self.titleLabel.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
+        self.titleLabel.sdc_alignEdges([.left, .right], with: self, insets: insets)
         
-        self.pinBottomOfScrollViewToView(self.titleLabel, withPriority: UILayoutPriorityDefaultLow + 1)
+        self.pinBottomOfScrollView(to: self.titleLabel, withPriority: UILayoutPriorityDefaultLow + 1)
     }
     
     private func createTitleAtTopLabelConstraints() {
         let contentPadding = self.visualStyle.contentPadding
-        self.addConstraint(NSLayoutConstraint(item: self.titleLabel, attribute: .Top,
-            relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: contentPadding.top))
+        self.addConstraint(NSLayoutConstraint(item: self.titleLabel, attribute: .top,
+            relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: contentPadding.top))
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
-        self.titleLabel.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
+        self.titleLabel.sdc_alignEdges([.left, .right], with: self, insets: insets)
 
-        self.pinBottomOfScrollViewToView(self.titleLabel, withPriority: UILayoutPriorityDefaultLow)
+        self.pinBottomOfScrollView(to: self.titleLabel, withPriority: UILayoutPriorityDefaultLow)
     }
 
     private func createMessageLabelConstraints() {
-        self.addConstraint(NSLayoutConstraint(item: self.messageLabel, attribute: .FirstBaseline,
-            relatedBy: .Equal, toItem: self.titleLabel, attribute: .LastBaseline , multiplier: 1,
+        self.addConstraint(NSLayoutConstraint(item: self.messageLabel, attribute: .firstBaseline,
+            relatedBy: .equal, toItem: self.titleLabel, attribute: .lastBaseline , multiplier: 1,
             constant: self.visualStyle.verticalElementSpacing))
         let contentPadding = self.visualStyle.contentPadding
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
-        self.messageLabel.sdc_alignEdges([.Left, .Right], withView: self, insets: insets)
+        self.messageLabel.sdc_alignEdges([.left, .right], with: self, insets: insets)
 
-        self.pinBottomOfScrollViewToView(self.messageLabel, withPriority: UILayoutPriorityDefaultLow + 2)
+        self.pinBottomOfScrollView(to: self.messageLabel, withPriority: UILayoutPriorityDefaultLow + 2)
     }
 
     private func createTextFieldsConstraints() {
         guard let textFieldsView = self.textFieldsViewController?.view,
-              let height = self.textFieldsViewController?.requiredHeight
-        else {
+              let height = self.textFieldsViewController?.requiredHeight else
+        {
             return
         }
 
@@ -184,47 +188,47 @@ class AlertView: AlertControllerView {
 
         let widthOffset = self.visualStyle.contentPadding.left + self.visualStyle.contentPadding.right
 
-        self.addConstraint(NSLayoutConstraint(item: textFieldsView, attribute: .Top, relatedBy: .Equal,
-            toItem: self.messageLabel, attribute: .LastBaseline, multiplier: 1,
+        self.addConstraint(NSLayoutConstraint(item: textFieldsView, attribute: .top, relatedBy: .equal,
+            toItem: self.messageLabel, attribute: .lastBaseline, multiplier: 1,
             constant: self.visualStyle.verticalElementSpacing))
 
-        textFieldsView.sdc_pinWidthToWidthOfView(self, offset: -widthOffset)
-        textFieldsView.sdc_alignHorizontalCenterWithView(self)
+        textFieldsView.sdc_pinWidth(toWidthOf: self, offset: -widthOffset)
+        textFieldsView.sdc_alignHorizontalCenter(with: self)
         textFieldsView.sdc_pinHeight(height)
 
-        self.pinBottomOfScrollViewToView(textFieldsView, withPriority: UILayoutPriorityDefaultLow + 3)
+        self.pinBottomOfScrollView(to: textFieldsView, withPriority: UILayoutPriorityDefaultLow + 3)
     }
 
     private func createCollectionViewConstraints() {
         let height = self.actionsCollectionView.displayHeight
-        let heightConstraint = NSLayoutConstraint(item: self.actionsCollectionView, attribute: .Height,
-            relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: height)
+        let heightConstraint = NSLayoutConstraint(item: self.actionsCollectionView, attribute: .height,
+            relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: height)
         heightConstraint.priority = UILayoutPriorityDefaultHigh
         self.actionsCollectionView.addConstraint(heightConstraint)
 
         let contentPadding = self.visualStyle.contentPadding
-        self.actionsCollectionView.sdc_alignEdges([.Left, .Right], withView: self, insets: UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right))
+        self.actionsCollectionView.sdc_alignEdges([.left, .right], with: self, insets: UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right))
         
-        self.actionsCollectionView.sdc_alignEdge(.Top, withEdge: .Bottom, ofView: self.scrollView)
-        self.actionsCollectionView.sdc_alignHorizontalCenterWithView(self)
-        self.actionsCollectionView.sdc_alignEdges(.Bottom, withView: self, insets: UIEdgeInsets(top: 0, left: 0, bottom: -contentPadding.bottom, right: 0))
+        self.actionsCollectionView.sdc_alignEdge(.top, with: .bottom, of: self.scrollView)
+        self.actionsCollectionView.sdc_alignHorizontalCenter(with: self)
+        self.actionsCollectionView.sdc_alignEdges(.bottom, with: self, insets: UIEdgeInsets(top: 0, left: 0, bottom: -contentPadding.bottom, right: 0))
     }
 
     private func createScrollViewConstraints() {
         let contentPadding = self.visualStyle.contentPadding
-        self.scrollView.sdc_alignEdges([.Left, .Right, .Top], withView: self, insets: UIEdgeInsets(top: contentPadding.top, left: contentPadding.left, bottom: 0, right: -contentPadding.right))
+        self.scrollView.sdc_alignEdges([.left, .right, .top], with: self, insets: UIEdgeInsets(top: contentPadding.top, left: contentPadding.left, bottom: 0, right: -contentPadding.right))
         self.scrollView.layoutIfNeeded()
 
         let scrollViewHeight = self.scrollView.contentSize.height
-        let constraint = NSLayoutConstraint(item: self.scrollView, attribute: .Height, relatedBy: .Equal,
-            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: scrollViewHeight)
+        let constraint = NSLayoutConstraint(item: self.scrollView, attribute: .height, relatedBy: .equal,
+            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: scrollViewHeight)
         constraint.priority = UILayoutPriorityDefaultHigh
         self.scrollView.addConstraint(constraint)
     }
 
-    private func pinBottomOfScrollViewToView(view: UIView, withPriority priority: UILayoutPriority) {
-        let bottomAnchor = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal,
-            toItem: self.scrollView, attribute: .Bottom, multiplier: 1,
+    private func pinBottomOfScrollView(to view: UIView, withPriority priority: UILayoutPriority) {
+        let bottomAnchor = NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal,
+            toItem: self.scrollView, attribute: .bottom, multiplier: 1,
             constant: -self.visualStyle.contentPadding.bottom)
         bottomAnchor.priority = priority
         self.addConstraint(bottomAnchor)
