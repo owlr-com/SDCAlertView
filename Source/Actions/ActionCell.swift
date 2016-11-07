@@ -2,10 +2,10 @@ import UIKit
 
 final class ActionCell: UICollectionViewCell {
 
-    @IBOutlet private(set) var titleLabel: UILabel!
-    @IBOutlet private var highlightedBackgroundView: UIView!
+    @IBOutlet fileprivate(set) var titleLabel: UILabel!
+    @IBOutlet fileprivate var highlightedBackgroundView: UIView!
 
-    private var textColor: UIColor?
+    fileprivate var textColor: UIColor?
     
     var isEnabled = true {
         didSet { self.titleLabel.isEnabled = self.isEnabled }

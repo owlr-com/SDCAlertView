@@ -1,13 +1,13 @@
 final class ActionSheetView: AlertControllerView {
 
-    @IBOutlet private var primaryView: UIView!
-    @IBOutlet private weak var cancelActionView: UIView?
-    @IBOutlet private weak var cancelLabel: UILabel?
-    @IBOutlet private weak var cancelButton: UIButton?
-    @IBOutlet private var contentViewConstraints: [NSLayoutConstraint]!
-    @IBOutlet private var collectionViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet private var cancelHeightConstraint: NSLayoutConstraint!
-    @IBOutlet private var titleWidthConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var primaryView: UIView!
+    @IBOutlet fileprivate weak var cancelActionView: UIView?
+    @IBOutlet fileprivate weak var cancelLabel: UILabel?
+    @IBOutlet fileprivate weak var cancelButton: UIButton?
+    @IBOutlet fileprivate var contentViewConstraints: [NSLayoutConstraint]!
+    @IBOutlet fileprivate var collectionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var cancelHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate var titleWidthConstraint: NSLayoutConstraint!
 
     override var actionTappedHandler: ((AlertAction) -> Void)? {
         didSet { self.actionsCollectionView.actionTapped = self.actionTappedHandler }
@@ -20,7 +20,7 @@ final class ActionSheetView: AlertControllerView {
         }
     }
 
-    private var cancelAction: AlertAction? {
+    fileprivate var cancelAction: AlertAction? {
         didSet { self.cancelLabel?.attributedText = self.cancelAction?.attributedTitle }
     }
 
@@ -63,7 +63,7 @@ final class ActionSheetView: AlertControllerView {
         self.cancelLabel?.textColor = self.visualStyle.textColor(for: self.cancelAction) ?? self.tintColor
     }
 
-    @IBAction private func cancelTapped() {
+    @IBAction fileprivate func cancelTapped() {
         guard let action = self.cancelAction else {
             return
         }
@@ -71,7 +71,7 @@ final class ActionSheetView: AlertControllerView {
         self.actionTappedHandler?(action)
     }
 
-    private func assignCancelAction() {
+    fileprivate func assignCancelAction() {
         if let cancelActionIndex = self.actions.index(where: { $0.style == .preferred }) {
             self.cancelAction = self.actions[cancelActionIndex]
             self.actions.remove(at: cancelActionIndex)

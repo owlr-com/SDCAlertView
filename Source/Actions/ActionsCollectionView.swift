@@ -32,7 +32,7 @@ class ActionsCollectionView: UICollectionView {
 
     var actionTapped: ((AlertAction) -> Void)?
 
-    private var highlightedCell: UICollectionViewCell?
+    fileprivate var highlightedCell: UICollectionViewCell?
 
     init() {
         super.init(frame: .zero, collectionViewLayout: ActionsCollectionViewFlowLayout())

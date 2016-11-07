@@ -6,7 +6,7 @@ private let kSpringVelocity: CGFloat = 0
 
 class AnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
-    private var isPresentation = false
+    fileprivate var isPresentation = false
 
     init(presentation: Bool) {
         self.isPresentation = presentation
@@ -58,7 +58,7 @@ class AnimationController: NSObject, UIViewControllerAnimatedTransitioning {
 
     }
 
-    private func animate(_ animations: @escaping (() -> Void),
+    fileprivate func animate(_ animations: @escaping (() -> Void),
                          inContext context: UIViewControllerContextTransitioning,
                          withCompletion completion: @escaping (Bool) -> Void)
     {

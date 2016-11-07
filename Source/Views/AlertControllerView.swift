@@ -47,7 +47,7 @@ extension AlertControllerViewRepresentable where Self: UIView {
         }
     }
 
-    private func addParallax() {
+    fileprivate func addParallax() {
         let parallax = self.visualStyle.parallax
 
         let horizontal = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)

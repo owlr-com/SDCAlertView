@@ -2,7 +2,7 @@ import UIKit
 
 class Transition: NSObject, UIViewControllerTransitioningDelegate {
 
-    private let alertStyle: AlertControllerStyle
+    fileprivate let alertStyle: AlertControllerStyle
 
     init(alertStyle: AlertControllerStyle) {
         self.alertStyle = alertStyle

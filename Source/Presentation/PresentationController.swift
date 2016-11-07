@@ -2,7 +2,7 @@ import UIKit
 
 class PresentationController: UIPresentationController {
 
-    private let dimmingView = UIView()
+    fileprivate let dimmingView = UIView()
 
     override init(presentedViewController: UIViewController,
                   presenting presentingViewController: UIViewController?)

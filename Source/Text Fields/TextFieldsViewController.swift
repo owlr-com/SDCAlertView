@@ -12,7 +12,7 @@ final class TextFieldsViewController: UIViewController {
         didSet { self.tableView.rowHeight = visualStyle?.textFieldHeight ?? self.tableView.rowHeight }
     }
 
-    private let tableView = UITableView(frame: .zero, style: .plain)
+    fileprivate let tableView = UITableView(frame: .zero, style: .plain)
     fileprivate let textFields: [UITextField]
 
     init(textFields: [UITextField]) {
