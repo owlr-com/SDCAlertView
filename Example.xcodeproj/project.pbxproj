@@ -184,12 +184,12 @@
 				TargetAttributes = {
 					D2515E6E1BC1A47F00ED606F = {
 						CreatedOnToolsVersion = 7.0.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Manual;
 					};
 					D2C0AFCC1BE7236A00F31D0F = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Manual;
 						TestTargetID = D2515E6E1BC1A47F00ED606F;
 					};

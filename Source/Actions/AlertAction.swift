@@ -15,7 +15,7 @@ public enum AlertActionStyle: Int {
 }
 
 @objc(SDCAlertAction)
-public class AlertAction: NSObject {
+open class AlertAction: NSObject {
 
     /**
     Creates an action with a plain title.
@@ -49,22 +49,22 @@ public class AlertAction: NSObject {
     }
 
     /// A closure that gets executed when the user taps on this actions in the UI
-    public var handler: ((AlertAction) -> Void)?
+    open var handler: ((AlertAction) -> Void)?
 
     /// The plain title for the action. Uses `attributedTitle` directly.
-    private(set) public var title: String? {
+    fileprivate(set) open var title: String? {
         get { return self.attributedTitle?.string }
         set { self.attributedTitle = newValue.map(NSAttributedString.init) }
     }
 
     /// The stylized title for the action.
-    private(set) public var attributedTitle: NSAttributedString?
+    fileprivate(set) open var attributedTitle: NSAttributedString?
 
     /// The action's style.
-    internal(set) public var style: AlertActionStyle = .normal
+    internal(set) open var style: AlertActionStyle = .normal
 
     /// Whether this action can be interacted with by the user.
-    public var isEnabled = true {
+    open var isEnabled = true {
         didSet { self.actionView?.isEnabled = self.isEnabled }
     }
 

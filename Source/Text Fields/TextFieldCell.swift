@@ -2,8 +2,8 @@ import UIKit
 
 final class TextFieldCell: UITableViewCell {
 
-    @IBOutlet private var borderView: UIView!
-    @IBOutlet private var textFieldContainer: UIView!
+    @IBOutlet fileprivate var borderView: UIView!
+    @IBOutlet fileprivate var textFieldContainer: UIView!
 
     var textField: UITextField? {
         didSet {
@@ -30,10 +30,10 @@ final class TextFieldCell: UITableViewCell {
         }
     }
 
-    private var paddingConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint,
+    fileprivate var paddingConstraints: (leading: NSLayoutConstraint, trailing: NSLayoutConstraint,
         top: NSLayoutConstraint, bottom: NSLayoutConstraint)?
 
-    private func add(_ textField: UITextField) {
+    fileprivate func add(_ textField: UITextField) {
         let container = self.textFieldContainer
         container?.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false

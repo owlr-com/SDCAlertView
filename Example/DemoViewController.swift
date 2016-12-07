@@ -3,16 +3,16 @@ import SDCAlertView
 
 final class DemoViewController: UITableViewController {
 
-    @IBOutlet private var typeControl: UISegmentedControl!
-    @IBOutlet private var styleControl: UISegmentedControl!
-    @IBOutlet private var titleTextField: UITextField!
-    @IBOutlet private var messageTextField: UITextField!
-    @IBOutlet private var textFieldCountTextField: UITextField!
-    @IBOutlet private var buttonCountTextField: UITextField!
-    @IBOutlet private var buttonLayoutControl: UISegmentedControl!
-    @IBOutlet private var contentControl: UISegmentedControl!
+    @IBOutlet fileprivate var typeControl: UISegmentedControl!
+    @IBOutlet fileprivate var styleControl: UISegmentedControl!
+    @IBOutlet fileprivate var titleTextField: UITextField!
+    @IBOutlet fileprivate var messageTextField: UITextField!
+    @IBOutlet fileprivate var textFieldCountTextField: UITextField!
+    @IBOutlet fileprivate var buttonCountTextField: UITextField!
+    @IBOutlet fileprivate var buttonLayoutControl: UISegmentedControl!
+    @IBOutlet fileprivate var contentControl: UISegmentedControl!
 
-    @IBAction private func presentAlert() {
+    @IBAction fileprivate func presentAlert() {
         if self.typeControl.selectedSegmentIndex == 0 {
             self.presentSDCAlertController()
         } else {
@@ -20,7 +20,7 @@ final class DemoViewController: UITableViewController {
         }
     }
 
-    private func presentSDCAlertController() {
+    fileprivate func presentSDCAlertController() {
         let title = self.titleTextField.content
         let message = self.messageTextField.content
         let style = AlertControllerStyle(rawValue: self.styleControl.selectedSegmentIndex)!
@@ -71,7 +71,7 @@ final class DemoViewController: UITableViewController {
         alert.present()
     }
 
-    private func addContentToAlert(_ alert: AlertController) {
+    fileprivate func addContentToAlert(_ alert: AlertController) {
         switch self.contentControl.selectedSegmentIndex {
         case 1:
             let contentView = alert.contentView
@@ -120,7 +120,7 @@ final class DemoViewController: UITableViewController {
     }
 
     @objc
-    private func updateProgressBar(_ timer: Timer) {
+    fileprivate func updateProgressBar(_ timer: Timer) {
         let bar = timer.userInfo as? UIProgressView
         bar?.progress += 0.005
 
@@ -129,7 +129,7 @@ final class DemoViewController: UITableViewController {
         }
     }
 
-    private func presentUIAlertController() {
+    fileprivate func presentUIAlertController() {
         let title = self.titleTextField.content
         let message = self.messageTextField.content
         let style = UIAlertControllerStyle(rawValue: self.styleControl.selectedSegmentIndex)!

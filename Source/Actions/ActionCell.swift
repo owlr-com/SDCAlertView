@@ -2,7 +2,7 @@ import UIKit
 
 final class ActionCell: UICollectionViewCell {
 
-    @IBOutlet private(set) weak var button: UIButton!
+    @IBOutlet fileprivate(set) weak var button: UIButton!
     
     var isEnabled = true {
         didSet { self.button.isEnabled = self.isEnabled }

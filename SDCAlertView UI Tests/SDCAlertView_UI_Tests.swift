@@ -13,7 +13,7 @@ class SDCAlertView_UI_Tests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func currentAlert() -> XCUIElement {
+    fileprivate func currentAlert() -> XCUIElement {
         return XCUIApplication().children(matching: .window)
                                 .elementBound(by: 0)
                                 .children(matching: .other)
@@ -22,17 +22,17 @@ class SDCAlertView_UI_Tests: XCTestCase {
                                 .elementBound(by: 1)
     }
 
-    private func buttonAtIndex(_ index: UInt) -> XCUIElement {
+    fileprivate func buttonAtIndex(_ index: UInt) -> XCUIElement {
         return XCUIApplication().collectionViews.children(matching: .cell).elementBound(by: index)
     }
 
-    private func showAlertAtIndex(_ index: UInt) -> XCUIApplication {
+    fileprivate func showAlertAtIndex(_ index: UInt) -> XCUIApplication {
         let app = XCUIApplication()
         app.tables.children(matching: .cell).elementBound(by: index).tap()
         return app
     }
 
-    private func tapButtonAtIndex(_ index: UInt, expectDismissal: Bool = true) {
+    fileprivate func tapButtonAtIndex(_ index: UInt, expectDismissal: Bool = true) {
         buttonAtIndex(index).tap()
         XCTAssertNotEqual(currentAlert().exists, expectDismissal)
     }
