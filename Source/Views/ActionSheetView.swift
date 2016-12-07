@@ -25,6 +25,8 @@ final class ActionSheetView: AlertControllerView {
     }
 
     override func prepareLayout() {
+        self.assignCancelAction()
+
         super.prepareLayout()
 
         self.collectionViewHeightConstraint.constant = self.actionsCollectionView.displayHeight
@@ -35,6 +37,11 @@ final class ActionSheetView: AlertControllerView {
         self.cancelActionView?.layer.cornerRadius = self.visualStyle.cornerRadius
         self.cancelActionView?.layer.masksToBounds = true
 
+        if let backgroundColor = self.visualStyle.backgroundColor {
+            self.primaryView.backgroundColor = backgroundColor
+            self.cancelActionView?.backgroundColor = backgroundColor
+        }
+
         self.cancelLabel?.textColor = self.visualStyle.textColor(for: self.cancelAction) ?? self.tintColor
         self.cancelLabel?.font = self.visualStyle.font(for: self.cancelAction)
         let cancelButtonBackground = UIImage.image(with: self.visualStyle.actionHighlightColor)
@@ -44,8 +51,6 @@ final class ActionSheetView: AlertControllerView {
         let showContentView = self.contentView.subviews.count > 0
         self.contentView.isHidden = !showContentView
         self.contentViewConstraints.forEach { $0.isActive = showContentView }
-
-        self.assignCancelAction()
     }
 
     override func highlightAction(for sender: UIPanGestureRecognizer) {
