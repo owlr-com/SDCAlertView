@@ -233,12 +233,12 @@ open class AlertController: UIViewController {
 
     private func listenForKeyboardChanges() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange),
-            name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+                                               name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
     @objc
     private func keyboardChange(_ notification: Notification) {
-        let newFrameValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue
+        let newFrameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let newFrame = newFrameValue?.cgRectValue else {
             return
         }
@@ -292,7 +292,7 @@ open class AlertController: UIViewController {
                 self.alertView.sdc_centerInSuperview()
                 let maximumHeightOffset = -(margins.top + margins.bottom)
                 self.alertView.sdc_setMaximumHeightToSuperviewHeight(withOffset: maximumHeightOffset)
-                self.alertView.setContentCompressionResistancePriority(500, for: .vertical)
+                self.alertView.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 500), for: .vertical)
         }
     }
 
@@ -302,10 +302,10 @@ open class AlertController: UIViewController {
         }
 
         let textFieldsViewController = TextFieldsViewController(textFields: textFields)
-        textFieldsViewController.willMove(toParentViewController: self)
-        self.addChildViewController(textFieldsViewController)
+        textFieldsViewController.willMove(toParent: self)
+        self.addChild(textFieldsViewController)
         alert.textFieldsViewController = textFieldsViewController
-        textFieldsViewController.didMove(toParentViewController: self)
+        textFieldsViewController.didMove(toParent: self)
     }
 
     private func addChromeTapHandlerIfNecessary() {

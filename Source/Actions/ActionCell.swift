@@ -23,7 +23,7 @@ final class ActionCell: UICollectionViewCell {
         self.button.setAttributedTitle(action.attributedTitle, for: .normal)
 
         self.accessibilityLabel = action.attributedTitle?.string
-        self.accessibilityTraits = UIAccessibilityTraitButton
+        self.accessibilityTraits = UIAccessibilityTraits.button
         self.isAccessibilityElement = true
     }
 }
