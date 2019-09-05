@@ -30,28 +30,28 @@ public enum ActionLayout: Int {
 @objc(SDCAlertController)
 open class AlertController: UIViewController {
 
-    fileprivate lazy var assignResponder: () -> Bool = { self.textFields?.first?.becomeFirstResponder() ?? false }
+    @objc fileprivate lazy var assignResponder: () -> Bool = { self.textFields?.first?.becomeFirstResponder() ?? false }
 
     /// The alert's title. Directly uses `attributedTitle` without any attributes.
-    override open var title: String? {
+    @objc override open var title: String? {
         get { return self.attributedTitle?.string }
         set { self.attributedTitle = newValue.map(NSAttributedString.init) }
     }
 
     /// The alert's message. Directly uses `attributedMessage` without any attributes.
-    open var message: String? {
+    @objc open var message: String? {
         get { return self.attributedMessage?.string }
         set { self.attributedMessage = newValue.map(NSAttributedString.init) }
     }
 
     /// A stylized title for the alert.
-    open var attributedTitle: NSAttributedString? {
+    @objc open var attributedTitle: NSAttributedString? {
         get { return self.alertView.title }
         set { self.alertView.title = newValue }
     }
 
     /// A stylized message for the alert.
-    open var attributedMessage: NSAttributedString? {
+    @objc open var attributedMessage: NSAttributedString? {
         get { return self.alertView.message }
         set { self.alertView.message = newValue }
     }
@@ -59,12 +59,12 @@ open class AlertController: UIViewController {
     /// The alert's content view. This can be used to add custom views to your alert. The width of the content
     /// view is equal to the width of the alert, minus padding. The height must be defined manually since it
     /// depends on the size of the subviews.
-    open var contentView: UIView {
+    @objc open var contentView: UIView {
         return self.alertView.contentView
     }
 
     /// The alert's actions (buttons).
-    fileprivate(set) open var actions = [AlertAction]() {
+    @objc fileprivate(set) open var actions = [AlertAction]() {
         didSet { self.alertView.actions = self.actions }
     }
 
@@ -72,7 +72,7 @@ open class AlertController: UIViewController {
     /// to the array will add it and override its style to `.Preferred`. Setting this value to `nil` will
     /// remove the preferred style from all actions.
     @available(iOS 9, *)
-    open var preferredAction: AlertAction? {
+    @objc open var preferredAction: AlertAction? {
         get {
             let index = self.actions.index { $0.style == .preferred }
             return index != nil ? self.actions[index!] : nil
@@ -91,13 +91,13 @@ open class AlertController: UIViewController {
     }
 
     /// The layout of the actions in the alert.
-    open var actionLayout: ActionLayout {
+    @objc open var actionLayout: ActionLayout {
         get { return (self.alertView as? AlertView)?.actionLayout ?? .automatic }
         set { (self.alertView as? AlertView)?.actionLayout = newValue }
     }
 
     /// The text fields that are added to the alert. Does nothing when used with an action sheet.
-    fileprivate(set) open var textFields: [UITextField]?
+    @objc fileprivate(set) open var textFields: [UITextField]?
 
     /// The alert's custom behaviors. See `AlertBehaviors` for possible options.
     open lazy var behaviors: AlertBehaviors? =
@@ -105,16 +105,16 @@ open class AlertController: UIViewController {
 
     /// A closure that, when set, returns whether the alert or action sheet should dismiss after the user taps
     /// on an action. If it returns false, the AlertAction handler will not be executed.
-    open var shouldDismissHandler: ((AlertAction?) -> Bool)?
+    @objc open var shouldDismissHandler: ((AlertAction?) -> Bool)?
 
     /// The visual style that applies to the alert or action sheet.
-    open lazy var visualStyle: AlertVisualStyle = AlertVisualStyle(alertStyle: self.preferredStyle)
+    @objc open lazy var visualStyle: AlertVisualStyle = AlertVisualStyle(alertStyle: self.preferredStyle)
 
     /// The alert's presentation style.
-    fileprivate(set) open var preferredStyle: AlertControllerStyle = .alert
+    @objc fileprivate(set) open var preferredStyle: AlertControllerStyle = .alert
 
-    @IBOutlet fileprivate var alertView: AlertControllerView! = AlertView()
-    fileprivate lazy var transitionDelegate: Transition = Transition(alertStyle: self.preferredStyle)
+    @objc @IBOutlet fileprivate var alertView: AlertControllerView! = AlertView()
+    @objc fileprivate lazy var transitionDelegate: Transition = Transition(alertStyle: self.preferredStyle)
 
     // MARK: - Initialization
 
@@ -125,7 +125,7 @@ open class AlertController: UIViewController {
     /// - parameter attributedTitle:   An optional stylized title
     /// - parameter attributedMessage: An optional stylized message
     /// - parameter preferredStyle:    The preferred presentation style of the alert. Default is `alert`.
-    public convenience init(attributedTitle: NSAttributedString?, attributedMessage: NSAttributedString?,
+    @objc public convenience init(attributedTitle: NSAttributedString?, attributedMessage: NSAttributedString?,
         preferredStyle: AlertControllerStyle = .alert)
     {
         self.init()
@@ -143,7 +143,7 @@ open class AlertController: UIViewController {
     /// - parameter title:          An optional title
     /// - parameter message:        An optional message
     /// - parameter preferredStyle: The preferred presentation style of the alert. Default is `alert`.
-    public convenience init(title: String?, message: String?, preferredStyle: AlertControllerStyle = .alert) {
+    @objc public convenience init(title: String?, message: String?, preferredStyle: AlertControllerStyle = .alert) {
         self.init()
         self.preferredStyle = preferredStyle
         self.commonInit()
@@ -152,7 +152,7 @@ open class AlertController: UIViewController {
         self.message = message
     }
 
-    fileprivate func commonInit() {
+    @objc fileprivate func commonInit() {
         self.modalPresentationStyle = .custom
         self.transitioningDelegate = self.transitionDelegate
 
@@ -169,7 +169,7 @@ open class AlertController: UIViewController {
     /// any position.
     ///
     /// - parameter action: The action to add.
-    open func add(_ action: AlertAction) {
+    @objc open func add(_ action: AlertAction) {
         self.actions.append(action)
     }
 
@@ -177,7 +177,7 @@ open class AlertController: UIViewController {
     ///
     /// - parameter configurationHandler: An optional closure that can be used to configure the text field,
     ///                                   which is provided as a parameter to the closure.
-    open func addTextField(withHandler configurationHandler: ((UITextField) -> Void)? = nil) {
+    @objc open func addTextField(withHandler configurationHandler: ((UITextField) -> Void)? = nil) {
         let textField = UITextField()
         textField.autocorrectionType = .no
         configurationHandler?(textField)
@@ -208,13 +208,13 @@ open class AlertController: UIViewController {
 
     // MARK: - Override
 
-    open override func viewDidLoad() {
+    @objc open override func viewDidLoad() {
         super.viewDidLoad()
         self.listenForKeyboardChanges()
         self.configureAlertView()
     }
 
-    open override func viewDidLayoutSubviews() {
+    @objc open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         // Explanation of why the first responder is set here:
@@ -225,13 +225,13 @@ open class AlertController: UIViewController {
         }
     }
 
-    open override var preferredStatusBarStyle: UIStatusBarStyle {
+    @objc open override var preferredStatusBarStyle: UIStatusBarStyle {
         return self.presentingViewController?.preferredStatusBarStyle ?? .default
     }
 
     // MARK: - Private
 
-    private func listenForKeyboardChanges() {
+    @objc private func listenForKeyboardChanges() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardChange),
                                                name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
@@ -250,7 +250,7 @@ open class AlertController: UIViewController {
         }
     }
 
-    private func configureAlertView() {
+    @objc private func configureAlertView() {
         self.alertView.translatesAutoresizingMaskIntoConstraints = false
         self.alertView.visualStyle = self.visualStyle
         if let behaviors = self.behaviors {
@@ -275,7 +275,7 @@ open class AlertController: UIViewController {
         }
     }
 
-    private func createViewConstraints() {
+    @objc private func createViewConstraints() {
         let margins = self.visualStyle.margins
 
         switch self.preferredStyle {
@@ -296,7 +296,7 @@ open class AlertController: UIViewController {
         }
     }
 
-    private func addTextFieldsIfNecessary() {
+    @objc private func addTextFieldsIfNecessary() {
         guard let textFields = self.textFields, let alert = self.alertView as? AlertView else {
             return
         }
@@ -308,7 +308,7 @@ open class AlertController: UIViewController {
         textFieldsViewController.didMove(toParent: self)
     }
 
-    private func addChromeTapHandlerIfNecessary() {
+    @objc private func addChromeTapHandlerIfNecessary() {
         if self.behaviors?.contains(.DismissOnOutsideTap) != true {
             return
         }
@@ -325,7 +325,7 @@ open class AlertController: UIViewController {
         }
     }
 
-    deinit {
+    @objc deinit {
         NotificationCenter.default.removeObserver(self)
     }
 }

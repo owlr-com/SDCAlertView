@@ -24,7 +24,7 @@ open class AlertAction: NSObject {
     - parameter style:   The action's style
     - parameter handler: An optional closure that's called when the user taps on this action
     */
-    public convenience init(title: String?, style: AlertActionStyle, handler: ((AlertAction) -> Void)? = nil)
+    @objc public convenience init(title: String?, style: AlertActionStyle, handler: ((AlertAction) -> Void)? = nil)
     {
         self.init()
         self.title = title
@@ -39,7 +39,7 @@ open class AlertAction: NSObject {
     - parameter style:           The action's style
     - parameter handler:         An optional closure that is called when the user taps on this action
     */
-    public convenience init(attributedTitle: NSAttributedString?, style: AlertActionStyle,
+    @objc public convenience init(attributedTitle: NSAttributedString?, style: AlertActionStyle,
         handler: ((AlertAction) -> Void)? = nil)
     {
         self.init()
@@ -49,26 +49,26 @@ open class AlertAction: NSObject {
     }
 
     /// A closure that gets executed when the user taps on this actions in the UI
-    open var handler: ((AlertAction) -> Void)?
+    @objc open var handler: ((AlertAction) -> Void)?
 
     /// The plain title for the action. Uses `attributedTitle` directly.
-    fileprivate(set) open var title: String? {
+    @objc fileprivate(set) open var title: String? {
         get { return self.attributedTitle?.string }
         set { self.attributedTitle = newValue.map(NSAttributedString.init) }
     }
 
     /// The stylized title for the action.
-    fileprivate(set) open var attributedTitle: NSAttributedString?
+    @objc fileprivate(set) open var attributedTitle: NSAttributedString?
 
     /// The action's style.
-    internal(set) open var style: AlertActionStyle = .normal
+    @objc internal(set) open var style: AlertActionStyle = .normal
 
     /// Whether this action can be interacted with by the user.
-    open var isEnabled = true {
+    @objc open var isEnabled = true {
         didSet { self.actionView?.isEnabled = self.isEnabled }
     }
 
-    var actionView: ActionCell? {
+    @objc var actionView: ActionCell? {
         didSet { self.actionView?.isEnabled = self.isEnabled }
     }
 }
