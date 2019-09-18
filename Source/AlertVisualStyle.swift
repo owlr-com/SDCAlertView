@@ -158,6 +158,10 @@ open class AlertVisualStyle: NSObject {
     @objc open var messageFont: UIFont = UIFont.systemFont(ofSize: 13)
     @objc open var messageTextColor: UIColor?
     
+    @objc open var tertiaryButtonTitleFont : UIFont = UIFont.systemFont(ofSize: 17)
+    @objc open var tertiaryButtonTitleColor : UIColor?
+    @objc open var tertiaryButtonBackgroundColor : UIColor?
+    
     @objc open func buttonColor(forAction action: AlertAction?) -> UIColor? {
         
         var buttonColor : UIColor?

@@ -43,6 +43,12 @@ open class AlertController: UIViewController {
         get { return self.attributedMessage?.string }
         set { self.attributedMessage = newValue.map(NSAttributedString.init) }
     }
+    
+    /// The alert's tertiary title. Directly uses `attributedMessage` without any attributes.
+    @objc open var tertiaryTitle: String? {
+        get { return self.attributedTertiaryTitle?.string }
+        set { self.attributedTertiaryTitle = newValue.map(NSAttributedString.init) }
+    }
 
     /// A stylized title for the alert.
     @objc open var attributedTitle: NSAttributedString? {
@@ -54,6 +60,11 @@ open class AlertController: UIViewController {
     @objc open var attributedMessage: NSAttributedString? {
         get { return self.alertView.message }
         set { self.alertView.message = newValue }
+    }
+    /// A stylized tertiary title for the alert.
+    @objc open var attributedTertiaryTitle: NSAttributedString? {
+        get { return self.alertView.tertiaryTitle }
+        set { self.alertView.tertiaryTitle = newValue }
     }
 
     /// The alert's content view. This can be used to add custom views to your alert. The width of the content
@@ -106,6 +117,10 @@ open class AlertController: UIViewController {
     /// A closure that, when set, returns whether the alert or action sheet should dismiss after the user taps
     /// on an action. If it returns false, the AlertAction handler will not be executed.
     @objc open var shouldDismissHandler: ((AlertAction?) -> Bool)?
+    
+    /// A closure that, when set, returns whether the alert or action sheet should dismiss after the user taps
+    /// on an action. If it returns false, the AlertAction handler will not be executed.
+    @objc open var tertiaryActionHandler: (() -> Void)?
 
     /// The visual style that applies to the alert or action sheet.
     @objc open lazy var visualStyle: AlertVisualStyle = AlertVisualStyle(alertStyle: self.preferredStyle)
@@ -125,7 +140,7 @@ open class AlertController: UIViewController {
     /// - parameter attributedTitle:   An optional stylized title
     /// - parameter attributedMessage: An optional stylized message
     /// - parameter preferredStyle:    The preferred presentation style of the alert. Default is `alert`.
-    @objc public convenience init(attributedTitle: NSAttributedString?, attributedMessage: NSAttributedString?,
+    @objc public convenience init(attributedTitle: NSAttributedString?, attributedMessage: NSAttributedString?, attributedTertiaryTitle: NSAttributedString?, tertiaryActionHandler: (() -> Void)?,
         preferredStyle: AlertControllerStyle = .alert)
     {
         self.init()
@@ -134,6 +149,8 @@ open class AlertController: UIViewController {
 
         self.attributedTitle = attributedTitle
         self.attributedMessage = attributedMessage
+        self.attributedTertiaryTitle = attributedTertiaryTitle
+        self.tertiaryActionHandler = tertiaryActionHandler
 
     }
 
@@ -143,13 +160,15 @@ open class AlertController: UIViewController {
     /// - parameter title:          An optional title
     /// - parameter message:        An optional message
     /// - parameter preferredStyle: The preferred presentation style of the alert. Default is `alert`.
-    @objc public convenience init(title: String?, message: String?, preferredStyle: AlertControllerStyle = .alert) {
+    @objc public convenience init(title: String?, message: String?, tertiaryTitle: String?, tertiaryActionHandler: (() -> Void)?, preferredStyle: AlertControllerStyle = .alert) {
         self.init()
         self.preferredStyle = preferredStyle
         self.commonInit()
 
         self.title = title
         self.message = message
+        self.tertiaryTitle = tertiaryTitle
+        self.tertiaryActionHandler = tertiaryActionHandler
     }
 
     @objc fileprivate func commonInit() {
@@ -273,6 +292,8 @@ open class AlertController: UIViewController {
                 action.handler?(action)
             }
         }
+        
+        self.alertView.tertiaryButton.addTarget(self, action: #selector(tertiaryActionTapped), for: .touchUpInside)
     }
 
     @objc private func createViewConstraints() {
@@ -322,6 +343,13 @@ open class AlertController: UIViewController {
     private func chromeTapped(_ sender: UITapGestureRecognizer) {
         if !self.alertView.frame.contains(sender.location(in: self.view)) {
             self.dismiss()
+        }
+    }
+    
+    @objc
+    private func tertiaryActionTapped(_ sender: Any) {
+        if let tertiaryActionHandler = self.tertiaryActionHandler {
+            tertiaryActionHandler()
         }
     }
 

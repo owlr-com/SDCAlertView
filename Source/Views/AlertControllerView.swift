@@ -4,9 +4,12 @@ protocol AlertControllerViewRepresentable {
 
     var title: NSAttributedString? { get set }
     var message: NSAttributedString? { get set }
+    var tertiaryTitle: NSAttributedString? { get set }
 
     var actions: [AlertAction] { get set }
     var actionTappedHandler: ((AlertAction) -> Void)? { get set }
+    
+    var tertiaryActionHandler: (() -> Void)? { get set }
 
     var contentView: UIView! { get }
     var visualStyle: AlertVisualStyle! { get set }
@@ -15,6 +18,7 @@ protocol AlertControllerViewRepresentable {
 
     var titleLabel: AlertLabel! { get }
     var messageLabel: AlertLabel! { get }
+    var tertiaryButton: UIButton! { get set }
     var actionsCollectionView: ActionsCollectionView! { get }
 
     func add(_ behaviors: AlertBehaviors)
@@ -31,6 +35,11 @@ extension AlertControllerViewRepresentable where Self: UIView {
     var message: NSAttributedString? {
         get { return self.messageLabel.attributedText }
         set { self.messageLabel.attributedText = newValue }
+    }
+    
+    var tertiaryTitle: NSAttributedString? {
+        get { return self.tertiaryButton.titleLabel!.attributedText }
+        set { self.tertiaryButton.setAttributedTitle(newValue, for: .normal) }
     }
 
     var topView: UIView { return self }
@@ -74,6 +83,10 @@ class AlertControllerView: UIView, AlertControllerViewRepresentable {
     @IBOutlet var messageLabel: AlertLabel! = AlertLabel() {
         didSet { self.messageLabel.translatesAutoresizingMaskIntoConstraints = false }
     }
+    
+    @IBOutlet var tertiaryButton: UIButton! = UIButton() {
+        didSet { self.tertiaryButton.translatesAutoresizingMaskIntoConstraints = false }
+    }
 
     @IBOutlet var actionsCollectionView: ActionsCollectionView! = ActionsCollectionView() {
         didSet { self.actionsCollectionView.translatesAutoresizingMaskIntoConstraints = false }
@@ -84,6 +97,7 @@ class AlertControllerView: UIView, AlertControllerViewRepresentable {
     var actions: [AlertAction] = []
     var visualStyle: AlertVisualStyle!
     var actionTappedHandler: ((AlertAction) -> Void)?
+    var tertiaryActionHandler: (() -> Void)?
 
     func prepareLayout() {
         self.actionsCollectionView.actions = self.actions

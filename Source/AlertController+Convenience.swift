@@ -9,10 +9,12 @@ public extension AlertController {
     ///
     /// - returns: The alert that was presented.
     @discardableResult
-    public class func alert(withTitle title: String? = nil, message: String? = nil,
+    public class func alert(withTitle title: String? = nil, message: String? = nil, tertiaryTitle: String?,
                             actionTitle: String? = nil, customView: UIView? = nil) -> AlertController
     {
-        let alertController = AlertController(title: title, message: message)
+        let alertController = AlertController(title: title, message: message, tertiaryTitle: tertiaryTitle, tertiaryActionHandler: {
+            
+        })
         alertController.add(AlertAction(title: actionTitle, style: .preferred))
 
         if let customView = customView {
@@ -34,7 +36,7 @@ public extension AlertController {
     public class func sheet(withTitle title: String? = nil, message: String? = nil, actions: [String])
         -> AlertController
     {
-        let alertController = AlertController(title: title, message: message, preferredStyle: .actionSheet)
+        let alertController = AlertController(title: title, message: message, tertiaryTitle: nil, tertiaryActionHandler: nil, preferredStyle: .actionSheet)
         actions.forEach { alertController.add(AlertAction(title: $0, style: .normal)) }
         alertController.present()
         return alertController
@@ -47,7 +49,7 @@ public extension AlertController {
     ///
     /// - returns: The action sheet that was presented.
     public class func sheet(with view: UIView, actions: [String]) -> AlertController {
-        let alertController = AlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alertController = AlertController(title: nil, message: nil, tertiaryTitle: nil, tertiaryActionHandler: nil, preferredStyle: .actionSheet)
         actions.forEach { alertController.add(AlertAction(title: $0, style: .normal)) }
         alertController.contentView.addSubview(view)
         alertController.present()

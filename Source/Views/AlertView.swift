@@ -25,6 +25,7 @@ class AlertView: AlertControllerView {
         let possibleElements: [UIView?] = [
             self.titleLabel,
             self.messageLabel,
+            (self.tertiaryTitle != nil) ? self.tertiaryButton : nil,
             self.textFieldsViewController?.view,
             self.contentView.subviews.count > 0 ? self.contentView : nil,
         ]
@@ -52,6 +53,9 @@ class AlertView: AlertControllerView {
             self.titleLabel.textColor = visualStyle.titleTextColor
             self.messageLabel.font = visualStyle.messageFont
             self.messageLabel.textColor = visualStyle.messageTextColor
+            self.tertiaryButton.titleLabel!.font = visualStyle.messageFont
+            self.tertiaryButton.titleLabel!.textColor = visualStyle.messageTextColor
+            self.tertiaryButton.backgroundColor = visualStyle.tertiaryButtonBackgroundColor
         }
     }
 
@@ -127,6 +131,10 @@ class AlertView: AlertControllerView {
             self.createTitleAtTopLabelConstraints()
         }
         
+        if let _ = self.tertiaryTitle {
+            self.createTertiaryButtonConstraints()
+        }
+        
         self.createMessageLabelConstraints()
         self.createTextFieldsConstraints()
         self.createCollectionViewConstraints()
@@ -173,7 +181,18 @@ class AlertView: AlertControllerView {
         let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
         self.messageLabel.sdc_alignEdges([.left, .right], with: self, insets: insets)
 
-        self.pinBottomOfScrollView(to: self.messageLabel, withPriority: UILayoutPriority.defaultLow + 2)
+        self.pinBottomOfScrollView(to: self.messageLabel, withPriority: UILayoutPriority.defaultLow + 1)
+    }
+    
+    fileprivate func createTertiaryButtonConstraints() {
+        self.addConstraint(NSLayoutConstraint(item: self.tertiaryButton, attribute: .top,
+            relatedBy: .equal, toItem: self.messageLabel, attribute: .bottom , multiplier: 1,
+            constant: 0))
+        let contentPadding = self.visualStyle.contentPadding
+        let insets = UIEdgeInsets(top: 0, left: contentPadding.left, bottom: 0, right: -contentPadding.right)
+        self.tertiaryButton.sdc_alignEdges([.left, .right], with: self, insets: insets)
+
+        self.pinBottomOfScrollView(to: self.tertiaryButton, withPriority: UILayoutPriority.defaultLow + 2)
     }
 
     fileprivate func createTextFieldsConstraints() {
